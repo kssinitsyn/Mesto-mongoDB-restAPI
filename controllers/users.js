@@ -16,6 +16,12 @@ module.exports.getAllUsers = (req, res) => {
 
 module.exports.getSingleUser = (req, res) => {
   User.findById(req.params.id)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user == null) {
+        res.status(404).send({ message: 'Нет пользователя с таким id' });
+      } else {
+        res.send({ data: user });
+      }
+    })
     .catch(() => res.status(500).send({ message: 'Нет пользователя с таким id' }));
 };
